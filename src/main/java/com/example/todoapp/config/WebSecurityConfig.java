@@ -12,7 +12,6 @@ import org.springframework.web.filter.CorsFilter;
 @EnableWebSecurity
 @Slf4j
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
     @Autowired
     private JwtAuthenticationFilter jwtAuthenticationFilter;
 

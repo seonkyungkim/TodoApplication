@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/todo")
+@RequestMapping("todo")
 public class TodoController {
 
     @Autowired  //스프링은 TodoController를 생성할 때 내부에 @Autowired가 있는걸 확인하면, Autowired가 알아서 빈을 찾고 이 인스턴스 멤버변수에 연결한다.
@@ -153,14 +153,4 @@ public class TodoController {
         }
 
     }
-
-
-
-
-
-
-
-
-
-
 }

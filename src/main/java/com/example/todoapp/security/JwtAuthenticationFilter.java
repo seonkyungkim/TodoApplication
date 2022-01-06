@@ -33,7 +33,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             log.info("Filter is running..");
 
             //토큰 검사하기. JWT이므로 인가서버에 요청하지 않고도 검증이 가능
-            if(token!=null && !token.equalsIgnoreCase("null")){
+            if (token != null && !token.equalsIgnoreCase("null")) {
 
                 //userid가져오기. 위조된 경우에는 예외 처리
                 String userId = tokenProvider.validateAndGetUserId(token);
@@ -46,27 +46,28 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                         null,
                         AuthorityUtils.NO_AUTHORITIES
                 );
+
                 //오브젝트를 SecurityContext에 등록 -> 나중에 스프링이 컨트롤러 메서드에서 @AuthenticationPrincipal을 통해 오브젝트 가져올 수 있음
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
                 securityContext.setAuthentication(authentication);
                 SecurityContextHolder.setContext(securityContext);
+
             }
         } catch(Exception ex) {
             logger.error("Could not set user authentication in security context", ex);
         }
-
         filterChain.doFilter(request, response);
     }
 
-    private String parseBearerToken(HttpServletRequest request){
-        //Http 요청의 헤더를 파싱해 Bearer토큰을 리턴
-        String bearerToken = request.getHeader("Authentication");
+    // Http 리퀘스트의 헤더를 파싱해 Bearer 토큰을 리턴하는 메서드.
+    private String parseBearerToken(HttpServletRequest request) {
 
-        if(StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer")){
+        String bearerToken = request.getHeader("Authorization");
+
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring(7);
         }
         return null;
     }
-
 }
