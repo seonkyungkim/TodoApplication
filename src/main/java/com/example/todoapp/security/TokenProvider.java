@@ -17,8 +17,7 @@ import java.util.Date;
 @Slf4j
 @Service
 public class TokenProvider {
-
-    private static final String SECRET_KEY = "Q4NSl604sgyHJj1qwEkR3ycUeR4uUAt7WJraD7EN3O9DVM4yyYuHxMEbSF4XXyYJkal13eqgB0F7Bq4H";
+    private static final String SECRET_KEY = "NMA8JPctFuna59f5";
 
     public String create(UserEntity userEntity) {
         // 기한 지금으로부터 1일로 설정
@@ -39,7 +38,6 @@ public class TokenProvider {
 		// SECRET_KEY를 이용해 서명한 부분
 		Nn4d1MOVLZg79sfFACTIpCPKqWmpZMZQsbNrXdJJNWkRv50_l7bPLQPwhMobT4vBOG6Q3JYjhDrKFlBSaUxZOg
 		 */
-
         // JWT Token 생성
         return Jwts.builder()
                 // header에 들어갈 내용 및 서명을 하기 위한 SECRET_KEY
