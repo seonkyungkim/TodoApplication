@@ -27,7 +27,8 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
 
     runtimeOnly 'com.h2database:h2'
-    runtimeOnly 'mysql:mysql-connector-java'
+//    runtimeOnly 'mysql:mysql-connector-java'
+    implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.27'
     implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
     implementation group: 'com.google.guava', name: 'guava', version: '31.0.1-jre'
 }
