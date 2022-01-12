@@ -11,3 +11,5 @@ spring:
     url: jdbc:mysql://${rds.hostname}:${rds.port}/${rds.db.name}
     username: ${rds.username}
     password: ${rds.password}
+    hikari:
+      maximum-pool-size: 10
