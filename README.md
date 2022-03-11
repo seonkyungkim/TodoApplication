@@ -1,6 +1,6 @@
 # Web Development 101
 
-React.js, 스프링 부트, AWS로 배우는 웹 개발 101
+React.js, 스프링 부트, AWS
 
 <aside>
 💡 Todo Application: basic features → authentication login for users → AWS distribution
@@ -788,13 +788,3 @@ React.js, 스프링 부트, AWS로 배우는 웹 개발 101
     
     앞서 설명한 모든 인프라를 대신 구축해주는 서비스가 AWS 일라스틱 빈스톡이다. 로드밸런서, 최소 인스턴스 개수, 데이터베이스 등 필요한 리소스를 알려주기만 하면 일라스틱 빈스톡이 로드밸런서, ASG, RDS(데이터베이스), EC2환경을 구축하고 EC2에서 애플리케이션을 실행한다.
     
-
-### 6.2 AWS CLI와 EB CLI 설치
-
-### 6.3 AWS의 일라스틱 빈스톡을 이용한 백엔드 배포
-
-### 6.4 AWS의 일라스틱 빈스톡을 이용한 프론트엔드 배포
-
-### 6.5 Route 53 도메인 설정
-
-### 6.6 백엔드/프론트엔드 AWS Certificate Manager를 이용한 https 설정
