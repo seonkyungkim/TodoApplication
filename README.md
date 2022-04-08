@@ -1,6 +1,8 @@
-# Web Development 101
+# Todo Application
 
-React.js, 스프링 부트, AWS
+React.js, Springboot, AWS로 Todo Application 구현하기
+
+[https://github.com/SeonkyungKim/TodoApplication](https://github.com/SeonkyungKim/TodoApplication)
 
 <aside>
 💡 Todo Application: basic features → authentication login for users → AWS distribution
@@ -8,24 +10,25 @@ React.js, 스프링 부트, AWS
    - JWT: authentication 이론과 구현
    - AWS: 일라스틱 빈스톡(EC2, 오토스케일링 그룹, 로드밸런서, RDS etc.)
    - Route 53: DNS 등록 및 로드밸런서 연결
+Version
+  - Springboot 2.5.7 / Gradle 6.8.2 / Jsonwebtoken 0.9.1 / python 3.10 / EB CLI 3.20.2
 
 </aside>
 
-https://www.notion.so/sunkyungkim/Todo-Application-5978c70e64394a74aa8d090c4fd3b4d8
-
-
 ---
 
-# TODO List
+# Todo Applictaion Development
 
 <aside>
 📌 **기능 요약**
 
-- 리스트 생성/수정/출력/삭제, 회원가입, 로그인, 로그아웃
+- 리스트 생성/수정/출력/삭제
+- 회원가입
+- 로그인, 로그아웃
 
 **배포할 애플리케이션의 아키텍처**
 
-![Untitled](Web%20Development%20101%20467dc773b4bd4176892482d823f6cf72/Untitled.png)
+![Untitled](Todo%20Appli%20467dc/Untitled.png)
 
 </aside>
 
@@ -34,7 +37,7 @@ https://www.notion.so/sunkyungkim/Todo-Application-5978c70e64394a74aa8d090c4fd3b
 ### 1.1 사용할 기술들
 
 - HTML/CSS/React.js
-: 프론트엔드 애플리케이션 개발. 이 애플리케이션에는 프론트엔드 클라이언트를 반환하는 서버가 하나 있으며,  React.js 애플리케이션을 반환하는 역할 하나만을 수행한다. 이런 방식으로 프론트엔드와 백엔드를 분리(decouple)할 수 있다. 분리하는 이유에 대해서는 더 생각해보자.
+: 프론트엔드 애플리케이션 개발. Todo Application에는 프론트엔드 클라이언트를 반환하는 서버가 하나 있으며,  React.js 애플리케이션을 반환하는 역할 하나만을 수행한다. 이런 방식으로 프론트엔드와 백엔드를 분리(decouple)할 수 있다.
 - 스프링부트
 : 백엔드 애플리케이션 개발. 프론트엔드 애플리케이션이 사용할 REST API를 스프링부트로 구현한다. 프로젝트를 확장하여 모바일 앱을 만들게 될 경우 별도의 백엔드 개발 없이 REST API를 사용할 수 있다. REST API를 구현하고 프론트엔드를 분리하면 마이크로서비스 아키텍처로 서비스를 확장하기 쉽다.
 - AWS
@@ -132,7 +135,7 @@ https://www.notion.so/sunkyungkim/Todo-Application-5978c70e64394a74aa8d090c4fd3b
         - 만약 RequestMapping(”test”)가 없다면 단순히 :8080/testGetMapping에 매핑됨
         - @PostMapping, @PutMapping, @DeleteMapping는 HTTP의 각 메서드에 연결
         
-        ![Untitled](Web%20Development%20101%20467dc773b4bd4176892482d823f6cf72/Untitled%201.png)
+        ![Untitled](Todo%20Appli%20467dc/Untitled%201.png)
         
     - Parameter를 넘겨받는 방법
         - @PathVariable
@@ -210,7 +213,7 @@ https://www.notion.so/sunkyungkim/Todo-Application-5978c70e64394a74aa8d090c4fd3b
     - ORM과 DAO클래스
     : 데이터베이스 콜 스니펫을 살펴보면 JDBC는 Connection을 이용해 데이터베이스에 연결하고 sqlSelectAllTodos에 작성된 SQL을 실행한 후 ResultSet이라는 클래스에 결과를 담아온 뒤 while문 내부에서 ResultSet을 Todo오브젝트로 바꿔준다. 이 일련의 과정을 ORM이라고 하며, 이 작업은 엔티티마다 해주어야 하므로 데이터베이스의 각 테이블마다 엔티티 클래스가 하나씩 매핑되어 존재한다. DAO는 생성/수정/삭제와 같은 기본적인 기능들을 엔티티마다 작성해주는데, 이런 반복작업을 줄이기 위해 ORM프레임워크(Hibernate)나 JPA, 스프링데이터 JPA를 사용하기도 한다.
         
-        ![Untitled](Web%20Development%20101%20467dc773b4bd4176892482d823f6cf72/Untitled%202.png)
+        ![Untitled](Todo%20Appli%20467dc/Untitled%202.png)
         
     - JPA(Hibernate, JPA Repository)
     : 반복해서 데이터베이스 쿼리를 보내 ResultSet을 파싱해야 하는 작업을 줄여준다. JPA는 스펙으로, 구현을 위해 특정 기능을 작성하라고 알려주는 지침과 같다. 자바에서 데이터베이스 접근, 저장, 관리에 필요한 스펙이 명시한대로 동작한다면 그 내부 구현 사항은 구현자의 마음이다. 스프링 데이터 JPA는 JPA를 추상화하여 사용하기 쉽게 도와주는 스프링 프로젝트다.
@@ -264,7 +267,6 @@ https://www.notion.so/sunkyungkim/Todo-Application-5978c70e64394a74aa8d090c4fd3b
     2. GET (retrieve메서드) : 포스팅한 title 값과 id, done값이 모두 출력되는지 확인.
     3. PUT (update메서드) : title, id, done 값 모두를 JSON형태로 준다.
     4. DELETE (delete메서드) : 요청바디로 id만 명시해준다. 바디 전체를 보내도 상관은 없음.
-    
 
 # 3. 프론트엔드 개발
 
@@ -304,7 +306,7 @@ https://www.notion.so/sunkyungkim/Todo-Application-5978c70e64394a74aa8d090c4fd3b
     - SPA(Single Page Application)
     : 한 번 웹페이지를 로딩하면 사용자가 새로고침하지 않는 한 새로 로딩하지 않는 애플리케이션. 브라우저의 자바스크립트가 fetch, ajax 등의 함수로 서버에 데이터를 요청하고, 받은 데이터를 기반으로  서버에 새 페이지를 요청하는 대신 자바스크립트가 동적으로 HTML페이지를 재구성한다.
         
-        ![Untitled](Web%20Development%20101%20467dc773b4bd4176892482d823f6cf72/Untitled%203.png)
+        ![Untitled](Todo%20Appli%20467dc/Untitled%203.png)
         
         1. 처음 하얀 화면이 뜰 때 브라우저는 index.html을 로딩하고 있다. 
         2. HTML의 <body>태그 부분을 렌더링하다 보면 마지막에 bundle.js라는 스크립트를 로딩하게 된다. bundle.js는 npm start를 실행했을 때 만들어진 스크립트로 index.js를 포함하고 있다. 
@@ -334,9 +336,8 @@ https://www.notion.so/sunkyungkim/Todo-Application-5978c70e64394a74aa8d090c4fd3b
         
         ReactDOM.render는 첫번째 매개변수로 리액트 컴포넌트를 받고, 두번째로는 root 엘리먼트를 받는다. 이는 index.html에 정의되어 있는 root 엘리먼트 아래에 해당 컴포넌트를 추가하라는 의미이다. React로 만든 모든 컴포넌트는 이 root 엘리먼트 하위에 추가된다.
         
-        ![Untitled](Web%20Development%20101%20467dc773b4bd4176892482d823f6cf72/Untitled%204.png)
+        ![Untitled](Todo%20Appli%20467dc/Untitled%204.png)
         
-    
 
 ### 3.2 프론트엔드 서비스 개발
 
@@ -356,7 +357,7 @@ https://www.notion.so/sunkyungkim/Todo-Application-5978c70e64394a74aa8d090c4fd3b
             2. 이후 this.state.item을 이용해 item오브젝트에 접근할 수 있다. 
             3. Todo 태그에서 item={변수}를 이용해 props로 매개변수를 넘길 수 있다.
             
-            ![Untitled](Web%20Development%20101%20467dc773b4bd4176892482d823f6cf72/Untitled%205.png)
+            ![Untitled](Todo%20Appli%20467dc/Untitled%205.png)
             
 - 3.2.2 Add 핸들러 추가
     - onInputChange
@@ -390,7 +391,7 @@ https://www.notion.so/sunkyungkim/Todo-Application-5978c70e64394a74aa8d090c4fd3b
         
         사용자가 + 버튼을 클릭할 때 실행. onInputChange에서 저장하고 있던 문자열을 리스트에 추가
         
-        ![Untitled](Web%20Development%20101%20467dc773b4bd4176892482d823f6cf72/Untitled%206.png)
+        ![Untitled](Todo%20Appli%20467dc/Untitled%206.png)
         
         AddTodo컴포넌트는 상위 컴포넌트(App)의 items에 접근할 수 없다. 따라서 리스트에 추가하는 add 함수는 App컴포넌트에 추가하고, 해당 함수를 AddTodo의 프로퍼티로 넘겨 AddTodo에서 사용한다. AddTodo컴포넌트에서 add를 props로 넘겨받아 onButtonClick에서 사용한다.
         
@@ -514,9 +515,9 @@ https://www.notion.so/sunkyungkim/Todo-Application-5978c70e64394a74aa8d090c4fd3b
         - Todo 컴포넌트에서 update 연결하여 사용
         - 테스트 - 업데이트시 PUT 메서드를 이용하는 HTTP 리퀘스트 사용했는지 확인 → 성공
             
-            ![Untitled](Web%20Development%20101%20467dc773b4bd4176892482d823f6cf72/Untitled%207.png)
+            ![Untitled](Todo%20Appli%20467dc/Untitled%207.png)
             
-            ![Untitled](Web%20Development%20101%20467dc773b4bd4176892482d823f6cf72/Untitled%208.png)
+            ![Untitled](Todo%20Appli%20467dc/Untitled%208.png)
             
 
 # 4. 인증 백엔드 통합
@@ -536,7 +537,7 @@ https://www.notion.so/sunkyungkim/Todo-Application-5978c70e64394a74aa8d090c4fd3b
     
     : 토큰은 사용자를 구별할 수 있는 문자열로, 최초 로그인 시 서버가 생성하고 나면 클라이언트가 이후 요청에 따라 아이디와 비밀번호 대신 토큰을 넘겨 인증을 진행한다. 이 방법도 HTTP요청 헤더의 Authorization 부분에 Bearer<TOKEN>을 명시하면 된다.
     
-    ![Untitled](Web%20Development%20101%20467dc773b4bd4176892482d823f6cf72/Untitled%209.png)
+    ![Untitled](Todo%20Appli%20467dc/Untitled%209.png)
     
     Basic 인증과 달리 아이디와 비밀번호를 매번 네트워크를 통해 전송할 필요가 없어 좀 더 안전하고, 서버가 토큰을 통해 사용자의 정보(User, Admin 등)나 유효시간을 정해 관리할 수 있다. 그러나 토큰기반 인증 역시 *Basic 인증의 스케일 문제를 해결할 수는 없다.*
     
@@ -580,11 +581,11 @@ https://www.notion.so/sunkyungkim/Todo-Application-5978c70e64394a74aa8d090c4fd3b
     - 테스트
         1. /auth/signup에 email, username, password를 적은 JSON을 POST로 보낸다.
         
-        ![Untitled](Web%20Development%20101%20467dc773b4bd4176892482d823f6cf72/Untitled%2010.png)
+        ![Untitled](Todo%20Appli%20467dc/Untitled%2010.png)
         
         1. /auth/signin에 email, password를 적어 POST로 보낸다.
         
-        ![Untitled](Web%20Development%20101%20467dc773b4bd4176892482d823f6cf72/Untitled%2011.png)
+        ![Untitled](Todo%20Appli%20467dc/Untitled%2011.png)
         
     - 중간 정리
         1. 로그인은 가능하나 로그인 상태가 유지되지는 않는다.
@@ -602,7 +603,7 @@ https://www.notion.so/sunkyungkim/Todo-Application-5978c70e64394a74aa8d090c4fd3b
     
     - 그림 - JWT 토큰 생성과 인증
         
-        ![Untitled](Web%20Development%20101%20467dc773b4bd4176892482d823f6cf72/Untitled%2012.png)
+        ![Untitled](Todo%20Appli%20467dc/Untitled%2012.png)
         
     
     지금은 JWT 토큰을 생성하고 로그인 시 반환하는 부분을 아래 순서대로 구현한다.
@@ -615,13 +616,13 @@ https://www.notion.so/sunkyungkim/Todo-Application-5978c70e64394a74aa8d090c4fd3b
         1. /auth/signup에서 HTTP POST 메서드로 email, username, password를 보낸다.
         2. /auth/signin에서 email, password를 보내 로그인하고 token이 반환되는지 확인한다.
             
-            ![Untitled](Web%20Development%20101%20467dc773b4bd4176892482d823f6cf72/Untitled%2013.png)
+            ![Untitled](Todo%20Appli%20467dc/Untitled%2013.png)
             
 - 4.3.2 스프링 시큐리티와 서블릿 필터
     
     : 스프링 시큐리티란 서블릿 실행 전에 실행되는 클래스들인 서블릿 필터의 집합이다.
     
-    ![Untitled](Web%20Development%20101%20467dc773b4bd4176892482d823f6cf72/Untitled%2014.png)
+    ![Untitled](Todo%20Appli%20467dc/Untitled%2014.png)
     
     - 서블릿 필터
         
@@ -657,7 +658,6 @@ https://www.notion.so/sunkyungkim/Todo-Application-5978c70e64394a74aa8d090c4fd3b
         1. user1(hello@world.com)과 user2(hello2@world.com)의 계정을 각각 생성한다.
         2. user1로 로그인한 뒤 얻은 토큰을 /todo에 POST 메서드로 리스트 추가요청과 함께 보낸다.
         3. user2로 같은 작업을 반복하고 결과를 리턴바디를 확인한다. 첫번째 사용자가 추가한 Todo는 보이지 않고 자신의 Todo만 리턴되면 성공적으로 작동하고 있음을 알 수 있다.
-    
 - 4.3.6 패스워드 암호화
     
     : 사용자에게 받은 패스워드를 BCryptPasswordEncoder가 제공하는 비교 메서드인 matches를 사용하여 서로 비교한다. 같은 값을 인코딩하더라도 할 때마다 값이 다르고 패스워드에 의미없는 랜덤값(Salt)을 붙여 결과를 생성하기 때문에, salt값을 고려해 두 값을 비교해주는 matches가 필요한 것이다.
@@ -681,13 +681,13 @@ https://www.notion.so/sunkyungkim/Todo-Application-5978c70e64394a74aa8d090c4fd3b
     
     : 우리에게 익숙한 ***서버-사이드 라우팅***은 브라우저에 주소를 입력하여 서버에 http GET 요청을 보내 그 답으로 사이트에 렌더링할 index.html 등의 파일을 받는다. 그러나 ***클라이언트-사이드 라우팅***은 서버에 어떤 요청도 보내지 않고 모든 라우팅을 클라이언트 코드인 자바스크립트로 해결한다. 이 애플리케이션은 클라이언트-사이드 라우팅 라이브러리로 react-router-dom을 사용한다.
     
-    ![Untitled](Web%20Development%20101%20467dc773b4bd4176892482d823f6cf72/Untitled%2015.png)
+    ![Untitled](Todo%20Appli%20467dc/Untitled%2015.png)
     
     1. http://localhost:3000에 접속하면 프론트엔드 서버가 앞으로 브라우저에서 필요한 모든 리소스를 담고 있는 리액트 애플리케이션을 리턴한다.
     2. /login에 접속하면 리액트 라우터가 이를 가로채고 URL을 파싱한 뒤 login 템플릿을 렌더링한다. 이 과정은 브라우저 내에서만 실행되므로 인터넷이 끊기더라도 렌더링이 가능하다.
 - 5.1.3 로그인 컴포넌트
-    - src/Login.js - 3000/login에서 렌더링할 컴포넌트
-    - src/AppRouter.js - 위 컴포넌트로 라우팅할 수 있도록 모든 라우팅 규칙을 작성
+    - src/Login.js - 로그인 컴포넌트. 3000/login에서 렌더링할 컴포넌트.
+    - src/AppRouter.js - 라우팅 컴포넌트. 위 컴포넌트로 라우팅할 수 있도록 모든 라우팅 규칙을 작성.
     - Index.js - 기존에는 ReactDOM에 App 컴포넌트를 넘겨주었으나 이제는 경로에 따라 실행되는 컴포넌트가 다르기 때문에 그 정보를 가진 AppRouter를 가장 먼저 렌더링 해야한다.
 - 5.1.4 접근 거부 시 로그인 페이지로 라우팅
     
@@ -705,7 +705,7 @@ https://www.notion.so/sunkyungkim/Todo-Application-5978c70e64394a74aa8d090c4fd3b
         2. 원래처럼 포스트맨에서 POST로 /auth/signin에 email과 password를 보내는 대신, 브라우저에서 로그인페이지로 이동하여 이메일과 패스워드를 입력하는 인풋필드에 사용자 계정을 입력하고 로그인 버튼을 누른다.
         3. 성공적으로 로그인했다면 아래와 같이 뜨는 로그인 토큰을 확인한다.
             
-            ![Untitled](Web%20Development%20101%20467dc773b4bd4176892482d823f6cf72/Untitled%2016.png)
+            ![Untitled](Todo%20Appli%20467dc/Untitled%2016.png)
             
 - 5.2.2 로그인에 성공
     
@@ -722,7 +722,7 @@ https://www.notion.so/sunkyungkim/Todo-Application-5978c70e64394a74aa8d090c4fd3b
     
     브라우저 개발자도구의 콘솔에 아래와 같이 입력해보면 로컬 스토리지에 어떻게 아이템이 저장되고, 어떻게 아이템을 가져올 수 있는지 확인할 수 있다. 또한 Storage 탭에서 애플리케이션별로 사용 저장된 로컬스토리지도 확인 가능하다. 로컬스토리지는 도메인마다 따로 저장되므로, 다른 도메인의 자바스크립트는 다른 도메인의 로컬스토리지에 접근할 수 없다.
     
-    ![Untitled](Web%20Development%20101%20467dc773b4bd4176892482d823f6cf72/Untitled%2017.png)
+    ![Untitled](Todo%20Appli%20467dc/Untitled%2017.png)
     
 - 5.3.2 액세스 토큰 저장
     
@@ -750,23 +750,26 @@ https://www.notion.so/sunkyungkim/Todo-Application-5978c70e64394a74aa8d090c4fd3b
 
 - 5.5.1 계정생성 로직
     
-    계정생성은 애플리케이션 구현의 마지막 단계로 백엔드 쪽에서는 signupAPI를 이미 작성했으므로 프론트엔드 부분만 추가하면 된다. 로그인 하단의 링크를 클릭하면 계정생성 페이지로 라우팅한 뒤, 계정을 생성하면 다시 로그인 페이지로 돌아가는 간단한 로직을 구현한다.
+    계정생성은 애플리케이션 구현의 마지막 단계로 백엔드 쪽에서는 signupAPI를 이미 작성했으므로 프론트엔드 부분을 추가한다. 로그인 하단의 링크를 클릭하면 계정생성 페이지로 라우팅한 뒤, 계정을 생성하면 다시 로그인 페이지로 돌아가는 간단한 로직을 구현한다.
     
-    ApiService에 백엔드에 signup 요청을 보내는 signup 메서드를 추가한다. 계정생성 페이지는 form 부분, 버튼 부분, 로그인하라는 링크 부분 총 세 가지로 구성되어 있다. 사용자가 버튼을 누르면 submitHandle함수가 실행되고 event.target(=form)에서 데이터를 가져와 요청 바디를 작성하여 ApiService의 signup함수를 통해 계정생성 요청을 한다.
+    ApiService에 백엔드에 signup 요청을 보내는 signup 메서드를 추가한다. 계정생성 페이지는 form 부분, 버튼 부분, 로그인하라는 링크 부분 총 세 가지로 구성되어 있다. 사용자가 버튼을 누르면 submitHandle함수가 실행되고 event.target(=form)에서 데이터를 가져와 요청 바디를 작성하여 ApiService의 signup함수를 통해 계정생성을 요청한다.
     
     - 테스트
-        
-        로그인 페이지에서 ‘계정이 없습니까? 가입하세요.’ 링크를 클릭해 계정생성 페이지로 라우팅되는지 확인하였다. 계정생성 페이지에서 ‘이미 계정이 있습니까? 로그인하세요.’ 링크를 눌러 역으로 로그인 페이지로 이동되는지 확인했다. 임의의 계정생성이 완료되면 로그인 페이지로 이동하며, 각 계정으로 로그인하면 저장한 리스트들이 그대로 출력된다.
-        
+        1. 로그인 페이지에서 ‘계정이 없습니까? 가입하세요’ 링크를 클릭해 계정생성 페이지로 라우팅되는지 확인
+        2. 계정생성 페이지에서 ‘이미 계정이 있습니까? 로그인하세요.’ 링크를 눌러 역으로 로그인 페이지로 이동되는지 확인 
+        3. 계정생성 과정이 완료되면 자동으로 로그인 페이지로 이동되는지 확인
+        4. 각 계정으로 로그인하면 로그아웃 이전에 저장한 리스트들이 그대로 출력되는지 확인
 
 # 6. 프로덕션 배포
 
 ### 6.1 서비스 아키텍처
 
-![Untitled](Web%20Development%20101%20467dc773b4bd4176892482d823f6cf72/Untitled%2018.png)
-
-1. 서비스 이용자가 프론트엔드 주소를 브라우저에 입력한다. 그러면 프론트엔드 서버의 애플리케이션 로드 밸런서를 거쳐 오토 스케일링 그룹 내의 EC2 인스턴스 중 하나에 트래픽이 전달된다. EC2 인스턴스 내부에서 실행중인 프론트엔드 애플리케이션이 브라우저에서 동작할 React.js 애플리케이션을 반환한다.
-2. 서비스 이용자는 프론트엔드 웹의 화면에서 아이디와 비밀번호를 입력하고 로그인을 클릭한다. 그러면 백엔드 서버의 애플리케이션 로드 밸런서를 통해 백엔드 애플리케이션에 전달된다. 백엔드 애플리케이션은 MySQL 서버와 통신해 데이터를 주고받는다. 이 과정에서 라우트 53, 로드 밸런서, 오토 스케일링 그룹, EC2와 같은 리소스가 필요하다.
+- 개요
+    
+    ![Untitled](Todo%20Appli%20467dc/Untitled%2018.png)
+    
+    1. 서비스 이용자가 프론트엔드 주소를 브라우저에 입력한다. 그러면 프론트엔드 서버의 애플리케이션 로드 밸런서를 거쳐 오토 스케일링 그룹 내의 EC2 인스턴스 중 하나에 트래픽이 전달된다. EC2 인스턴스 내부에서 실행중인 프론트엔드 애플리케이션이 브라우저에서 동작할 React.js 애플리케이션을 반환한다.
+    2. 서비스 이용자는 프론트엔드 웹의 화면에서 아이디와 비밀번호를 입력하고 로그인을 클릭한다. 그러면 백엔드 서버의 애플리케이션 로드 밸런서를 통해 백엔드 애플리케이션에 전달된다. 백엔드 애플리케이션은 MySQL 서버와 통신해 데이터를 주고받는다. 이 과정에서 라우트 53, 로드 밸런서, 오토 스케일링 그룹, EC2와 같은 리소스가 필요하다.
 - 6.1.1 EC2
     
     EC2는 서버 컴퓨터와 같다. 로컬 환경에서 애플리케이션을 실행하듯이 EC2에서도 애플리케이션을 실행할 수 있다. 다만 로컬환경과 달리 EC2의 IP나 EC2가 제공하는 퍼블릭 도메인을 이용하여 애플리케이션에 접근해야 한다. 즉, localhost:8080/todo 대신 128.29.30.2/todo를 이용해 REST API를 사용한다. 그러나 사이트의 서버 IP 대신 도메인 주소로 애플리케이션에 접근하기 위해 DNS를 사용할 것이다.
@@ -777,17 +780,231 @@ https://www.notion.so/sunkyungkim/Todo-Application-5978c70e64394a74aa8d090c4fd3b
     
 - 6.1.3 애플리케이션 로드 밸런서
     
+    AWS 애플리케이션 로드 밸런서에 2개의 인스턴스가 연결되어 있을 때, 이 인스턴스를 AWS에서는 타깃그룹이라고 한다. ASG는 타겟 그룹 중 한 인스턴스가 다운되었을 경우, 자동으로 스케일해준다. ASG에 최소, 최대, 적정 인스턴스 수를 설정해두면 일부 인스턴스가 다운되어 최소 개수보다 작아지면 해당 인스턴스를 제거하고 새로운 인스턴스를 실행시킨다. 또 트래픽 변동에 따라 자동으로 스케일 인/아웃도 가능하다.
+    
     사용량이 늘어나 EC2의 인스턴스를 두 개 이상으로 늘려야 할 경우가 되면, 각 인스턴스에 트래픽을 적절히 분배해주기 위해 VIP(Virtual IP)라는 공유 IP를 사용한다. 애플리케이션 로드 밸런서는 이렇게 공유 IP를 사용하는 여러 서버들에게 트래픽을 적절히 분배한다. 또한 HTTP/HTTPS 요청을 연결된 서버로 분배한다.
     
 - 6.1.4 오토 스케일링 그룹(ASG)
     
-    AWS 애플리케이션 로드 밸런서에 2개의 인스턴스가 연결되어 있을 때, 이 인스턴스를 AWS에서는 타깃그룹이라고 한다. ASG는 타겟 그룹 중 한 인스턴스가 다운되었을 경우, 자동으로 스케일해준다. ASG에 최소, 최대, 적정 인스턴스 수를 설정해두면 일부 인스턴스가 다운되어 최소 개수보다 작아지면 해당 인스턴스를 제거하고 새로운 인스턴스를 실행시킨다. 또 트래픽 변동에 따라 자동으로 스케일 인/아웃도 가능하다.
+    AWS 애플리케이션 로드 밸런서에 2개의 인스턴스가 연결되어 있을 때, 이 인스턴스를 AWS에서는 타깃그룹이라고 한다. ASG는 타겟 그룹 중 한 인스턴스가 다운되었을 경우, 자동으로 스케일해준다. ASG에 최소, 최대, 적정 인스턴스 수를 설정해두면 일부 인스턴스가 다운되어 최소 개수보다 작아지면 해당 인스턴스를 제거하고 새로운 인스턴스를 실행시킨다. 또 트래픽 변동에 따라 자동으로 스케일 인/아웃도 가능하다.
     
 - 6.1.5 VPC와 서브넷
     
-    VPC는 사용자의 AWS계정 전용 가상 네트워크이다. 가상 네트워크는 특별한 설정 없이는 내부에서 생성되는 EC2에 외부접근이 불가능해 가상 사설 네트워크라고도 한다. VPC 안에는 서브넷이라는 여러개로 쪼개진 네트워크가 존재하고 한 서브넷 내에 EC2 서버가 생성된다. 서브넷 설정에 따라 EC2의 사설IP 주소가 결정된다.
+    VPC는 사용자의 AWS계정 전용 가상 네트워크이다. 가상 네트워크는 특별한 설정 없이는 내부에서 생성되는 EC2에 (인터넷, 다른 AWS 계정으로부터의) 외부접근이 불가능해 가상 사설 네트워크라고도 한다. VPC 안에는 서브넷이라는 여러개로 쪼개진 네트워크가 존재하고 한 서브넷 내에 EC2 서버가 생성된다. 서브넷 설정에 따라 EC2의 사설IP 주소가 결정된다.
     
 - 6.1.6 일라스틱 빈스톡
     
     앞서 설명한 모든 인프라를 대신 구축해주는 서비스가 AWS 일라스틱 빈스톡이다. 로드밸런서, 최소 인스턴스 개수, 데이터베이스 등 필요한 리소스를 알려주기만 하면 일라스틱 빈스톡이 로드밸런서, ASG, RDS(데이터베이스), EC2환경을 구축하고 EC2에서 애플리케이션을 실행한다.
     
+
+### 6.2 AWS CLI와 EB CLI 설치
+
+AWS 리소스에 접근할 수 있는 방법은 세 가지가 있다.
+
+1. GUI 기반으로 동작하는 AWS 콘솔(https://console.aws.amazone.com)
+2. 터미널이나 파워셸에서 명령어를 이용하는 AWS CLI(Command Line Interface)
+3. AWS SDK(Software Development Kit) 라이브러리 추가
+- 6.2.1 AWS 계정 생성
+    1. [https://portal.aws.amazon.com/billing/signup#/start](https://portal.aws.amazon.com/billing/signup#/start) 에서 AWS 계정생성
+    2. [https://console.aws.amazon.com](https://console.aws.amazon.com)에서 AWS콘솔에 로그인
+- 6.2.2 파이썬 설치
+    
+    AWS CLI와 EB CLI는 파이썬 기반으로 동작하므로, 파이썬3 설치.
+    
+    맥에 homebrew가 설치되어 있다면 `$ brew install python3`로 설치할 수 있다. 파이썬 설치시 pip도 자동으로 설치되는데, pip3는 모듈관리를 위해 미리 업그레이드 해주는게 좋다.
+    
+- 6.2.3 AWS CLI 설치
+    
+    AWS CLI를 사용하면 EC2, 로드 밸런서, 오토 스케일링 그룹, Route 53, 다이나모 디비 등 AWS의 모든 서비스를 사용할 수 있다. [https://awscli.amazonaws.com/AWSCLIV2.pkg](https://awscli.amazonaws.com/AWSCLIV2.pkg)에서 패키지를 다운받아 설치하고 설치한 뒤에는 터미널에서 버전확인 명령어 `$ aws --version`로 CLI 설치를 확인한다.
+    
+- 6.2.4 AWS CLI 설정
+    
+    Root 계정의 보안을 지키기 위해 IAM툴을 이용하여 AWS CLI 프로그램이 사용할 액세스키와 비밀 액세스키를 발급받아야 한다.
+    
+    1. Root계정으로 로그인한 뒤 IAM 대시보드의 사용자 페이지로 들어간다.
+    2. 사용자 추가버튼을 누르고 사용자 추가 페이지에서 사용자 이름(cli-user)을 입력하고, 액세스 유형에서 프로그래밍 방식 액세스를 체크한다. 
+    (프로그래밍 방식 액세스를 선택하면 액세스키와 시크릿키가 자동으로 생성되며, AWS Management Console 액세스를 선택하면 아이디와 비밀번호를 지정하는 로그인 사용자가 된다.)
+    3. 권한 설정 단계에서 기존 정책 직접연결(Attach existing policies directly)를 선택하고 아래의 정책 선택 박스에서 AdministratorAccess를 체크한다.
+    (AdministratorAccess는 모든 AWS 리소스에 대해 모든 권한을 준다는 의미이고, AdministratorAccess-Amplify는 Amplify라는 서비스에 한해 모든 권한을 준다는 뜻이다.)
+    4. 내용을 검토한 뒤 사용자를 생성한다.
+        
+        ![Untitled](Todo%20Appli%20467dc/Untitled%2019.png)
+        
+    5. 사용자 생성 결과로 나온 액세스키 ID와 비밀 액세스키를 창을 닫기 전에 반드시 메모해두어야 한다.
+    6. 터미널에서 `$ aws configure`로 aws cli를 설정한다. 액세스키 노출을 우려하여 결과캡처는 아래 사진으로 대체한다. Default region name은 us-west-2로 해두었으나 ap-northeast-2로 해두면 한국과 데이터센터가 가까워 네트워크 시간이 짧아진다.
+        
+        ![Untitled](Todo%20Appli%20467dc/Untitled%2020.png)
+        
+- 6.2.5 pip을 이용해 EB CLI 설치
+    
+    AWS CLI와 달리 EB CLI는 일라스틱 빈스톡 환경만을 구축하고 설정할 수 있다. 터미널에서 pip을 이용해 aws ebcli를 설치한다. 명령어는 `$ pip3 install awsebcli --upgrade --user`다.
+    
+
+### 6.3 AWS의 일라스틱 빈스톡을 이용한 백엔드 배포
+
+- 6.3.1 일라스틱 빈스톡
+    
+    백엔드 애플리케이션의 경우 RDS에 MySQL을 데이터베이스로 두고 서버는 로드밸런서에 오토 스케일링 그룹을 연결하는 형태이다. 이에 필요한 애플리케이션 로드 밸런서, 오토 스케일링 그룹, RDS, EC2 등을 일라스틱 빈스톡을 통해 구축하고 연결할 수 있다. 
+    
+    1. 데이터베이스를 설정하고 오토스케일링 그룹을 생성한 뒤에 이 그룹 내의 EC2 인스턴스들이 애플리케이션을 실행할 수 있도록 적절한 스크립트를 작성한다.
+    2. 로드 밸런서에 오토 스케일링 그룹을 타깃 그룹으로 지정한다.
+    
+    위의 과정이 일라스틱 빈스톡에서는 eb create라는 한 줄의 명령으로 끝난다. 6.3.4에서 자세히 본다.
+    
+- 6.3.2 eb init을 이용해 애플리케이션 생성
+    
+    EB CLI를 이용해 로컬 환경에서 애플리케이션을 생성하기 위하여 `$ cd IdeaProjects/todoapp`로 프로젝트 폴더로 이동한 뒤 `$ eb init todoapp`로 로컬환경에서 일라스틱 빈스톡 애플리케이션 생성을 위한 초기화 작업을 시작한다. 작업이 완료되면 루트 디렉터리에 .elasticbeanstalk 디렉터리가 생성되고 그 안에 설정항목이 저장되어 있는 config.yml 파일이 생성된다.
+    
+- 6.3.3 백엔드 애플리케이션 설정
+    
+    백엔드 애플리케이션을 배포하기 전에 애플리케이션 프로퍼티 파일을 개발용과 배포용으로 분리해주는 작업이 필요하다. 백엔드 프로젝트의 /src/main/resources 아래에 application-prod.yaml과 application-dev.yaml을 생성하고 자동 생성된 application.properties는 삭제해준다.
+    
+    - application-prod.yaml
+        - server 설정
+            - `port : 5000` : 일라스틱 빈스톡은 기본적으로 애플리케이션이 5000 포트를 사용한다고 생각하므로 그대로 사용하기로 한다.
+        - jpa 설정
+            - `database: MYSQL`
+                
+                : 데이터베이스로 MySQL을 사용한다.
+                
+            - `show-sql:*true*`
+                
+                : jpa가 실행한 sql 쿼리를 로그로 보여줄지 여부
+                
+            - `database-platform: org.hibernate.dialect.MySQL8Dialect`
+                
+                : 데이터베이스 플랫폼으로 자바의 데이터형과 데이터베이스의 데이터형을 매핑해주는 라이브러리인 MySQL8Dialect를 사용한다. 자바의 String을 Varchar로 매핑하거나 각종 어노테이션을 DB 키워드로 전환하는 역할을 한다.
+                
+            - `hibernate:
+               ddl-auto: update`
+                
+                : ddl은 Data Definition Language의 약자로 보통 create, alter, drop과 같은 쿼리를 뜻한다. ddl-auto는 애플리케이션 시작 시 DB 테이블을 어떻게 하겠느냐는 의미이다. 보통 모든 테이블을 지우고 새로 만들고 싶다면 create를, 없는 테이블은 만들고 수정된 테이블은 업데이트하려면 update를, 단지 현재 DB의 테이블 스키마가 애플리케이션에 정의된 모델과 일치하는지 확인하려면 validate를 사용한다. 보통 프로덕션에서는 validate를 사용하고 DB를 업데이트 해야하는 경우에는 업데이트 스크립트와 롤백 스크립트를 따로 작성해 사용한다.
+                
+        - datasource 설정
+            - `url: jdbc:mysql://${rds.hostname}:${rds.port}/${rds.db.name}`
+                
+                : 데이터베이스 url을 의미한다. 데이터베이스 타입과 호스트 주소, 포트, 데이터베이스 이름을 적어줘야 한다. 일라스틱 빈스톡이 애플리케이션을 실행하면서 이 값을 지정해줄 수 있으므로 실제 값 대신 대체값으로 사용했다.
+                
+            - `username: ${rds.username}`  & `password: ${rds.password}`
+                
+                : DB의 사용자이름과 패스워드도 일라스틱 빈스톡이 애플리케이션 실행시 대체해준다.
+                
+    - application-dev.yaml
+        
+        : 공백파일로 남겨둔다. 이 파일을 사용 설정하면 h2 데이터베이스를 쓸 수 있게 하기 위해서다.
+        
+    - mysql-connector-java
+        
+        MySQL 사용을 위해 build.gradle에 mysql-connector-java 디펜던시를 추가한다. MySQL의 인코딩이 변경되어 최신 버전을 사용하지 않으면 오류가 생기는 이슈가 있으니 주의한다.
+        
+    - HealthCheck API
+        
+        AWS 로드 밸런서는 기본 경로인 “/”에 HTTP요청을 보내 애플리케이션 동작여부를 확인한다. 일라스틱 빈스톡은 이를 기반으로 애플리케이션의 상태를 확인하고 AWS콘솔 화면에 표시해준다. 이를 위해 controller패키지에 HealthCheckController클래스를 만들고 “/” 경로에 간단한 API를 작성해주려고 한다.
+        
+        참고로 “/”과 “/auth/**”는 앞서 WebSecurityConfig에서 이미 인증이 필요없도록 설정해두었기 때문에 “/”는 인증 없이 접근이 가능하다. 그렇지 않으면 접근시 403 에러가 리턴되고 로드밸런서가 어플리케이션에 에러가 있다고 판단하기 때문이다.
+        
+    - target jar 설정
+        
+        일라스틱 빈스톡에게 업로드할 어플리케이션을 자동으로 S3에 업로드하고 환경설정 해달라고 요청하기 위해서는 경로를 알려주어야 한다.
+        
+        백엔드 프로젝트의 루트에서 `$ ./gradlew build`명령어로 build/libs 아래에 jar 파일을 생성한다. 그리고 해당 파일의 정보를 .elasticbeanstalk 내의 config.yml 파일에 추가해준다.
+        
+        ```powershell
+        deploy:
+        	artifact: build/libs/todoapp-0.0.1-SNAPSHOT.jar
+        ```
+        
+        만약 빌드과정에서 tools.jar를 찾을 수 없다는 에러가 뜨면 jdk 환경변수 설정을 확인한다. 혹은 맥OS에 기본으로 설정된 [JAVA_HOME](https://www.notion.so/JAVA_HOME-bf2f34bbfb68474194306e112df820e9)이 원인일 수도 있다.
+        
+- 6.3.4 eb create를 이용해 AWS에 환경설정
+    
+    ```powershell
+    $ eb create --database --elb-type application --instance-type t2.micro
+    ```
+    
+    - `eb create`: AWS에 일라스틱 빈스톡 환경을 생성하는 커맨드
+    - `--database`: 생성하는 환경에 RDS를 만들기 위한 매개변수로 자동으로 DB가 생성된다.
+    - `--elb-type <ELB타입>`: 일라스틱 로드밸런서 타입 매개변수로 로드밸런서와 오토 스케일링 그룹을 사용하는 경우에 이 매개변수를 추가한다. 타입에는 application, classic, network 등이 있다.
+    - `--instance-type <인스턴스 타입>`: 애플리케이션이 동작할 인스턴스 타입을 명시한다. 여기서는 프리티어로 제공되는 t2.micro를 사용한다.
+        
+        ![Untitled](Todo%20Appli%20467dc/Untitled%2021.png)
+        
+        DNS CNAME prefix는 다른 URL과 중복되면 안되므로 고유한 값으로 넣어야하는 것에 주의한다.
+        
+- 6.3.5 애플리케이션 배포
+    
+    몇 분 뒤 AWS의 해당 서버 일라스틱 빈스톡의 환경에 들어가보면 상태가 Severe로 바뀐 것을 확인할 수 있다. 이는 환경생성만 하고 애플리케이션을 배포하지 않았기 때문이다. 따라서 환경이 사용할 애플리케이션 yaml 파일을 `$ eb setenv` 로 지정해줘야 한다. 프로젝트 루트에서 명령하고 환경이 재시작할 때까지 기다렸다가 AWS 환경 페이지를 새로고침하면 상태가 OK로 변한 것을 확인할 수 있다.
+    
+    `$ eb setenv SPRING_PROFILES_ACTIVE=prod`
+    
+    : 값으로 prod를 주면 application-prod.yaml을, dev를 주면 application-dev.yaml을 이용하여 애플리케이션을 실행시킨다. 만약 해당 명령어가 잘 동작하지 않는다면 환경 페이지의 구성 탭에서 직접 수정하여 적용시킬 수도 있다.
+    
+- 6.3.6 환경 구성
+    
+    일라스틱 빈스톡 페이지에서 Configuration(구성)으로 들어가면 현재 환경의 구성을 살펴볼 수 있다. 각 리소스는 일라스틱 빈스톡이 대신해서 AWS에 리소스를 생성해준 것이므로 개별적으로 확인하고 관리할 수 있다. 각 리소스는 다음과 같은 명령어를 통해 확인할 수 있다.
+    
+    - RDS
+        
+        `$ aws rds describe-db-instances --region us-west-2`
+        
+        : 일라스틱 빈스톡을 통해 생성한 RDS 인스턴스를 확인할 수 있다. 결과의 마지막 부분의 TagList를 확인해보면 Key와 Value에 추가된 값으로 어떤 인스턴스가 어떤 환경에 속하는지 확인할 수 있다.
+        
+    - 오토 스케일링 그룹
+        
+        `$ aws autoscaling describe-auto-scaling-groups --region us-west-2`
+        
+    - 애플리케이션 로드 밸런서
+        
+        `$ aws elbv2 describe-load-balancers --region us-west-2`:로드밸런서 확인
+        
+        `$ aws elbv2 describe-target-groups --region us-west-2`: 타깃그룹 확인
+        
+- 6.3.7 엔드포인트 테스팅
+    - 백엔드 애플리케이션
+        1. AWS 환경 페이지에서 URL을 확인하고 해당 페이지로 들어가서 HealthCheckController의 리턴값이 브라우저에 출력되는지 확인
+        2. Postman에서 계정생성 API 테스팅을 위해 POST 방식으로 [http://prod-todoapp-backend.us-west-2.elasticbeanstalk.com/auth/signup](http://prod-todoapp-backend.us-west-2.elasticbeanstalk.com/auth/signup)에 email, username, password값을 JSON 형식으로 보내보고 정상적으로 응답이 리턴되는지 확인
+    - 프론트엔드 애플리케이션
+        1. 프론트엔드 코드의 app-config.js에서 backendHost 값을 URL로 변경하고 `$ npm start`로 애플리케이션을 재시작
+        2. 생성한 계정으로 로그인하고 임의의 todo를 작성한 뒤 네트워크 탭에서 해당 엔드포인트를 이용해 요청을 보낸 것을 확인
+- 6.3.8 정리
+    1. `$ cd IdeaProjects/todoapp` 프로젝트 루트로 이동
+    2. `$ eb init todoapp` 초기화 작업 시작. (3-6-3-N-N 선택)
+    3. 백앤드 코드의 /src/main/resources에 application-prod.yaml과 application-dev.yaml 생성
+    4. application.properties는 삭제하고, mysql-connector-java 디펜던시 추가
+    5. controller 패키지에 HealthCheckController.java클래스 생성
+    6. 프로젝트 루트에서 `$ ./gradlew build`로 jar 생성 후 config.yml에 deploy: artifact: 추가
+    7. `$ eb create --database --elb-type application --instance-type t2.micro`
+    8. `$ eb setenv SPRING_PROFILES_ACTIVE=prod`
+    9. AWS의 일라스틱 빈스톡 환경페이지를 새로고침하면 OK 상태
+
+### 6.4 AWS의 일라스틱 빈스톡을 이용한 프론트엔드 배포
+
+- 6.4.1 eb init을 이용해 애플리케이션 생성
+    
+    `$ cd IdeaProjects/todoapp-react` - `$ eb init todoapp-react`명령어를 이용해 로컬 디렉토리를 일라스틱 빈스톡 환경으로 초기화한다. 리전은 백엔드가 배포된 지역과 동일하게 선택한다. 
+    
+- 6.4.2 eb create를 이용한 애플리케이션 배포
+    
+    app-config.js의 백엔드 경로를 로컬 호스트인 경우 로컬 API를, 그렇지 않은 경우 일라스틱 빈스톡의 주소를 사용하도록 수정한다. 코드를 수정한 뒤 `$ npm run build` 로 소스코드를 빌드하고, `$ eb create --elb-type application --instance-type t2.micro`를 이용해 환경을 설정한다. 잠시 뒤 AWS의 일라스틱 빈스톡에 가보면 프론트엔드 애플리케이션이 OK 상태로 생성되어 있을 것이다.
+    
+- 6.4.3 크로스-오리진 문제
+    
+    그러나 CORS 정책으로 인해 아직 API를 실행할 수는 없다. URL이 달라졌기 때문에 크로스-오리진 문제가 다시 발생한 것이다. 따라서 백엔드 코드의 WebMvcConfig에서 allowedOrigins에 프론트엔드 주소를 추가해줘야 한다. 이 작업은 도메인을 구매하여 프론트엔드와 백엔드에 연결해줄 때도 해야한다.
+    
+    백엔드 코드를 수정한 뒤 `$ ./gradlew clean && ./gradlew build`로 컴파일하고, `$ eb deploy`로 새 버전의 백엔드 애플리케이션을 디플로이한다. 이제 URL에 접속하면 login 페이지로 리디렉트 되는 것을 확인할 수 있다.
+    
+
+### 6.5 Route 53 도메인 설정
+
+- 6.5.1 도메인 구매
+    1. AWS 콘솔에서 도메인과 호스팅 관리를 도와주는 서비스인 Route 53로 들어간다. 
+    2. 도메인 등록에서 원하는 도메인 이름을 기입한 뒤 자신의 연락처를 입력하고 정보를 확인한다. 
+    3. 도메인 활성화를 위해 입력한 이메일로 도착한 확인 메일의 링크를 클릭한다.
+- 6.5.2 호스팅 영역 생성
+    
+    생성된 도메인을 위한 호스팅 영역을 설정해야 한다. 호스팅 영역에서는 서브 도메인을 생성해야 한다.
+    
+    - app.fsoftwareengineer.com: 프론트엔드 애플리케이션을 위한 도메인
+    - api.fsoftwareengineer.com: 백엔드 애플리케이션을 위한 도메인
+    1. Route 53의 호스팅 영역 > 호스팅영역 생성 페이지로 이동한다.
+    2. 도메인 이름에 구매한 도메인 이름을 적고 호스팅 영역 생성 버튼을 누른다.
