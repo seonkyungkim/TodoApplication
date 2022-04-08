@@ -1,14 +1,6 @@
-# Todo Application
-
-### React.js, Springboot, AWS로 구현하기
-
----
+# Todo Application(React.js, Springboot, AWS로 구현하기)
 
 [Notion](https://www.notion.so/sunkyungkim/Todo-Application-5978c70e64394a74aa8d090c4fd3b4d8)에서 보는 것을 추천드립니다.
-
-# Todo Applictaion Development
-
----
 
 
 💡 Todo Application
