@@ -11,6 +11,9 @@ React.js, 스프링 부트, AWS
 
 </aside>
 
+https://www.notion.so/sunkyungkim/Todo-Application-5978c70e64394a74aa8d090c4fd3b4d8
+
+
 ---
 
 # TODO List
